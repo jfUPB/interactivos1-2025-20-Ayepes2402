@@ -42,7 +42,7 @@ Se podría usar en un videojuego simple, donde hay estados como menú, jugando, 
 Yo diría que las primeras actividades en conjunto me ayudaron a comprender mejor los temas, y me parece indispensable hacer ejemplos antes de realizar las actividades del apply.
 
 **¿Hubo algún paso o actividad que te pareció confuso? ¿Qué cambiarías o eliminarías?**   
-El código, porque es un pronlema mío, pero la verdad no cambiaría nada.
+El código, porque es un problema mío, pero la verdad no cambiaría nada.
 
 **¿Qué te habría ayudado a entender mejor?**   
 La verdad no se me ocurre algo en estos momentos porque siento que se trató de explicar todo super bien.
@@ -52,4 +52,5 @@ La verdad no se me ocurre algo en estos momentos porque siento que se trató de 
 
 **¿Hay algo más que te gustaría compartir sobre tu proceso de aprendizaje en esta unidad? ¿Algún momento de frustración o de “¡Aha!” que quieras destacar?**  
 Me gustaría destacar que mejoré un poco más en los conceptos y en la programación.
+
 
