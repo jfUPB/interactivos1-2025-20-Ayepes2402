@@ -18,7 +18,7 @@ Una máquina de estados es una manera de organizar un programa para que sepa qu�
 La máquina de estados ayuda a que un programa en micro:bit o p5.js pueda atender varias cosas a la vez sin bloquearse. Guarda el estado actual y en cada ciclo revisa qué hacer según los eventos. Esto es mejor que usar sleep(), porque sleep() detiene el programa y no deja responder a otras tareas, mientras que la máquina de estados avanza en pasos cortos y sigue reaccionando rápido.
 
 **Imagina que tienes que añadir una nueva funcionalidad a la bomba: si se recibe un evento especial (por ejemplo, una combinación de botones o un comando serial) mientras la cuenta regresiva está activa, el tiempo se reduce a la mitad. ¿Cómo modificarías tu diagrama de máquina de estados para incluir este nuevo evento y acción?**  
-
+Para agregar esta nueva función en la máquina de estados, modificaría el estado ARMED para que, si se recibe un evento especial, el tiempo de la cuenta regresiva se reduzca a la mitad. Este evento solo se podrá usar una vez por activación, así que pondría una condición que lo controle. No cambiaría los estados, solo agregaría esta nueva acción dentro del estado ARMED.
 
 **Explica qué es un “vector de prueba” y por qué es una herramienta crucial para verificar que una máquina de estados funciona como se espera.**   
 Un vector de prueba es como una lista de ejemplos donde ponemos qué pasa y qué debería hacer la máquina de estados en cada caso. Es importante porque así comprobamos si funciona bien y si responde como se espera, ayudando a encontrar fallos antes de usarla de verdad.
@@ -52,3 +52,4 @@ La verdad no se me ocurre algo en estos momentos porque siento que se trató de 
 
 **¿Hay algo más que te gustaría compartir sobre tu proceso de aprendizaje en esta unidad? ¿Algún momento de frustración o de “¡Aha!” que quieras destacar?**  
 Me gustaría destacar que mejoré un poco más en los conceptos y en la programación.
+
