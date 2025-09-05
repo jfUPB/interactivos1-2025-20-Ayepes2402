@@ -109,7 +109,6 @@ Código modificado:
 <body>
   <button id="connect">Conectar micro:bit</button>
   <script>
-    "use strict";
 
     let tileCount = 20;
     let actRandomSeed = 0;
@@ -229,5 +228,6 @@ Código modificado:
 ## Video
 
 [Video demostratativo](URL)
+
 
 
