@@ -126,3 +126,4 @@ Al llegar a 0: calavera, sonido y reinicio con 20 s.
 **Resultado obtenido:** El sistema respeta el límite máximo, inicia con 60 s, detona y reinicia correctamente.  
  
 
+

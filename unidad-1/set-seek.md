@@ -71,3 +71,4 @@ function draw() {
 * Muestra una captura de pantalla del resultado de tu programa.  
   <img width="448" height="298" alt="image" src="https://github.com/user-attachments/assets/83a57549-72de-455d-b7fb-e70fd63dea1c" />
 
+
