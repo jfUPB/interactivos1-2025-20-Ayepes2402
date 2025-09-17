@@ -105,6 +105,19 @@ while True:
 Los datos en formato binario son más compactos y rápidos de transmitir, pero difíciles de leer sin herramientas especiales. En cambio, los datos en ASCII son fáciles de entender y depurar, aunque ocupan más espacio y son más lentos de enviar. Por eso, el binario es mejor para eficiencia y el ASCII para claridad.  
 
 ### Actividad 03  
+**Explica por qué en la unidad anterior teníamos que enviar la información delimitada y además marcada con un salto de línea y ahora no es necesario.**  
+Antes tocaba poner una marca para que el programa supiera dónde terminaba cada mensaje, porque la cantidad de datos que llegaba cambiaba y así era más fácil de leer.
+Ahora no hace falta, porque cada paquete siempre trae la misma cantidad de bytes y se entiende sin poner un separador.  
+
+**Compara el código de la unidad anterior relacionado con la recepción de los datos seriales que ves ahora. ¿Qué cambios observas?**  
+Antes se leía texto con readUntil("\n") y se cortaba en partes con split(). Ahora se reciben 6 bytes binarios de una sola vez y con DataView se convierten directo a números. Ya no se necesita partir cadenas.  
+
+**¿Qué ves en la consola? ¿Por qué crees que se produce este error?**  
+En la consola aparecen lecturas que no tienen sentido, por ejemplo números muy grandes o negativos que cambian de golpe. Esto pasa porque al enviar datos por comunicación serial los bytes no siempre llegan juntos ni respetan el inicio y final de cada paquete. Cuando el programa lee en medio de un envío, se mezclan bytes de distintos paquetes y se pierde la sincronía, por eso se ven valores extraños en las variables como microBitX y microBitY.  
+
+**¿Qué puedes observar en la consola del editor de p5.js con la versión final?**  
+Los valores salen parejos y correctos. Si un paquete llega mal aparece el mensaje “Checksum error in packet”, pero ya no hay saltos ni números locos.  
+
 
 
 
