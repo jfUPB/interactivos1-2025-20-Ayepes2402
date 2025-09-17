@@ -118,6 +118,188 @@ En la consola aparecen lecturas que no tienen sentido, por ejemplo números muy 
 **¿Qué puedes observar en la consola del editor de p5.js con la versión final?**  
 Los valores salen parejos y correctos. Si un paquete llega mal aparece el mensaje “Checksum error in packet”, pero ya no hay saltos ni números locos.  
 
+### Apply 
+**Códido modificado**   
+```js
+
+let tileCount = 20;
+let actRandomSeed = 0;
+let rectSize = 30;
+
+let xOffset = 0;
+let yOffset = 0;
+
+let lastA = 0;
+let lastB = 0;
+
+let port;
+let connectBtn;
+let microBitConnected = false;
+let serialBuffer = []; 
+
+let microBitX = 0;
+let microBitY = 0;
+let microBitAState = false;
+let microBitBState = false;
+let prevA = false;
+let prevB = false;
+
+const STATES = {
+  WAIT_CONNECTION: "WAIT_CONNECTION",
+  RUNNING: "RUNNING",
+};
+let appState = STATES.WAIT_CONNECTION;
+
+function setup() {
+  createCanvas(600, 600);
+  colorMode(HSB, 360, 100, 100, 100);
+  noStroke();
+  fill(192, 100, 64, 60);
+
+  port = createSerial();
+  connectBtn = createButton("Conectar micro:bit");
+  connectBtn.position(10, 10);
+  connectBtn.mousePressed(connectBtnClick);
+}
+
+function connectBtnClick() {
+  if (!port.opened()) {
+    port.open("MicroPython", 115200);
+  } else {
+    port.close();
+  }
+}
+
+function updateButtonStates(aState, bState) {
+  if (aState && !prevA) {
+    actRandomSeed = int(random(100000));
+
+      "A pressed: start drawing at",
+      xOffset.toFixed(0),
+      yOffset.toFixed(1)
+    );
+  }
+
+  if (bState && !prevB) {
+    saveCanvas("miPatron", "png");
+  }
+
+  prevA = aState;
+  prevB = bState;
+}
+
+function readSerialData() {
+  let available = port.availableBytes();
+  if (available > 0) {
+    let newData = port.readBytes(available);
+    serialBuffer = serialBuffer.concat(newData);
+  }
+
+  while (serialBuffer.length >= 8) {
+    if (serialBuffer[0] !== 0xaa) {
+      serialBuffer.shift();
+      continue;
+    }
+    if (serialBuffer.length < 8) break;
+
+    let packet = serialBuffer.slice(0, 8);
+    serialBuffer.splice(0, 8);
+
+    let dataBytes = packet.slice(1, 7);
+    let receivedChecksum = packet[7];
+    let computedChecksum = dataBytes.reduce((acc, val) => acc + val, 0) % 256;
+    if (computedChecksum !== receivedChecksum) {
+      console.log("Checksum incorrecto");
+      continue;
+    }
+
+    let buffer = new Uint8Array(dataBytes).buffer;
+    let view = new DataView(buffer);
+
+    microBitX = view.getInt16(0);
+    microBitY = view.getInt16(2);
+    microBitAState = view.getUint8(4) === 1;
+    microBitBState = view.getUint8(5) === 1;
+
+    updateButtonStates(microBitAState, microBitBState);
+
+    xOffset = map(microBitX, -1024, 1024, 0, width);
+    yOffset = map(microBitY, -1024, 1024, 0, height);
+  }
+}
+
+function draw() {
+  if (!port.opened()) {
+    connectBtn.html("Conectar micro:bit");
+    microBitConnected = false;
+  } else {
+    microBitConnected = true;
+    connectBtn.html("Desconectar");
+  }
+
+  switch (appState) {
+    case STATES.WAIT_CONNECTION:
+      if (microBitConnected) {
+        port.clear();
+        prevA = false;
+        prevB = false;
+        appState = STATES.RUNNING;
+      }
+      break;
+
+    case STATES.RUNNING:
+      if (!microBitConnected) {
+        appState = STATES.WAIT_CONNECTION;
+        break;
+      }
+
+      readSerialData();
+
+      clear();
+      randomSeed(actRandomSeed);
+
+      for (let gridY = 0; gridY < tileCount; gridY++) {
+        for (let gridX = 0; gridX < tileCount; gridX++) {
+          let posX = (width / tileCount) * gridX;
+          let posY = (height / tileCount) * gridY;
+
+          let shiftX1 = (xOffset / 20) * random(-1, 1);
+          let shiftY1 = (yOffset / 20) * random(-1, 1);
+          let shiftX2 = (xOffset / 20) * random(-1, 1);
+          let shiftY2 = (yOffset / 20) * random(-1, 1);
+          let shiftX3 = (xOffset / 20) * random(-1, 1);
+          let shiftY3 = (yOffset / 20) * random(-1, 1);
+          let shiftX4 = (xOffset / 20) * random(-1, 1);
+          let shiftY4 = (yOffset / 20) * random(-1, 1);
+
+          push();
+          translate(posX, posY);
+          beginShape();
+          vertex(shiftX1, shiftY1);
+          vertex(rectSize + shiftX2, shiftY2);
+          vertex(rectSize + shiftX3, rectSize + shiftY3);
+          vertex(shiftX4, rectSize + shiftY4);
+          endShape(CLOSE);
+          pop();
+        }
+      }
+      break;
+  }
+}
+```
+<img width="396" height="96" alt="image" src="https://github.com/user-attachments/assets/178c10d4-fd39-453b-bdef-3d48af019562" />   
+
+Aquí note que salía con decimales  
+
+<img width="401" height="95" alt="image" src="https://github.com/user-attachments/assets/3b7bb61f-f757-4980-b0c0-f8a9c1c7d07c" />   
+
+Para quitar los decimales lo que hice fue usar int() en las coordenadas. Primero, después del map() que convierte los valores del micro:bit a la pantalla, y también en el print() que muestra los datos en la consola. Así las posiciones se guardan como enteros y siempre se ven números sin decimales.  
+<img width="381" height="99" alt="image" src="https://github.com/user-attachments/assets/fb7facfb-2ae3-4bf4-b559-20fc55ee4656" />
+
+
+
+
+
 
 
 
