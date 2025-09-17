@@ -27,7 +27,8 @@ Ese fragmento lee la línea de texto que envía el micro:bit, la separa por coma
 <img width="1538" height="1592" alt="20250912_143056" src="https://github.com/user-attachments/assets/0fb68822-9f54-4662-8479-2d717d4e0204" />  
 
 ### Actividad 2  
-<img width="557" height="188" alt="image" src="https://github.com/user-attachments/assets/808af6e2-59ad-4d45-bfef-fc6185c7f01f" />  
+<img width="557" height="188" alt="image" src="https://github.com/user-attachments/assets/808af6e2-59ad-4d45-bfef-fc6185c7f01f" />    
+
 **Captura el resultado del experimento anterior. ¿Por qué se ve este resultado?**  
 Porque muestra el estado del newAState y va cambiando el resultado de la pantalla si se unde el boton A o B  
 
@@ -70,8 +71,41 @@ while True:
 **como en este no se puede ver toca ponerlo en todo hex para que se pueda leer**
 <img width="794" height="190" alt="image" src="https://github.com/user-attachments/assets/17cb87a2-0a0f-40eb-a233-2b3ae3afe4fc" />  
 
-**¿Cuántos bytes se están enviando por mensaje? ¿Cómo se relaciona esto con el formato '>2h2B'? ¿Qué significa cada uno de los bytes que se envían?**  
+**¿Cuántos bytes se están enviando por mensaje? ¿Cómo se relaciona esto con el formato '>2h2B'? ¿Qué significa cada uno de los bytes que se envían?**   
+Se envían 6 bytes por mensaje. El formato '>2h2B' indica que se transmiten dos valores de 2 bytes (x e y del acelerómetro) y dos de 1 byte (estado de los botones A y B). Cada byte representa una parte específica de esos datos.
 
- **Recuerda de la unidad anterior que es posible enviar números positivos y negativos para los valores de xValue y yValue. ¿Cómo se verían esos números en el formato '>2h2B'?**  
+**Recuerda de la unidad anterior que es posible enviar números positivos y negativos para los valores de xValue y yValue. ¿Cómo se verían esos números en el formato '>2h2B'?**  
+En el formato '>2h2B', los valores positivos y negativos de xValue y yValue se codifican como enteros de 2 bytes usando complemento a dos. Por ejemplo, 300 sería 01 2C y -300 sería FE D4.  
+
+**Ahora realiza el siguiente experimento para comparar el envío de datos en ASCII y en binario.**
+```js
+# Imports go at the top
+from microbit import *
+import struct
+uart.init(115200)
+display.set_pixel(0,0,9)
+
+while True:
+    if accelerometer.was_gesture('shake'):
+        xValue = accelerometer.get_x()
+        yValue = accelerometer.get_y()
+        aState = button_a.is_pressed()
+        bState = button_b.is_pressed()
+        data = struct.pack('>2h2B', xValue, yValue, int(aState), int(bState))
+        uart.write(data)
+        uart.write("ASCII:\n")
+        data = "{},{},{},{}\n".format(xValue, yValue, aState,bState)
+        uart.write(data)
+```
+**Captura el resultado del experimento.**   
+<img width="1054" height="230" alt="image" src="https://github.com/user-attachments/assets/75d717dd-c3d3-45ec-9a9a-d4516df57975" />  
+<img width="1000" height="225" alt="image" src="https://github.com/user-attachments/assets/a97a44e8-fe74-4bf0-9e05-9da4aa99101b" />  
+
+**¿Qué diferencias ves entre los datos en ASCII y en binario? ¿Qué ventajas y desventajas ves en usar un formato binario en lugar de texto en ASCII? ¿Qué ventajas y desventajas ves en usar un formato ASCII en lugar de binario?**  
+Los datos en formato binario son más compactos y rápidos de transmitir, pero difíciles de leer sin herramientas especiales. En cambio, los datos en ASCII son fáciles de entender y depurar, aunque ocupan más espacio y son más lentos de enviar. Por eso, el binario es mejor para eficiencia y el ASCII para claridad.  
+
+### Actividad 03  
+
+
 
 
