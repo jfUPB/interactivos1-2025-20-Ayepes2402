@@ -24,7 +24,7 @@ Ese fragmento lee la línea de texto que envía el micro:bit, la separa por coma
 * Si newBState pasa de true a false sucede B released, que cambia el color del trazo.  
 
 **Capturas de pantalla de los algunos dibujos que hayas hecho con el sketch.**
-<img width="1538" height="1592" alt="20250912_143056" src="https://github.com/user-attachments/assets/0fb68822-9f54-4662-8479-2d717d4e0204" />  
+<img width="600" height="600" alt="20250912_143056" src="https://github.com/user-attachments/assets/0fb68822-9f54-4662-8479-2d717d4e0204" />  
 
 ### Actividad 2  
 <img width="557" height="188" alt="image" src="https://github.com/user-attachments/assets/808af6e2-59ad-4d45-bfef-fc6185c7f01f" />    
@@ -312,6 +312,7 @@ Para quitar los decimales lo que hice fue usar int() en las coordenadas. Primero
 | 3. Análisis y Reflexión |  4.6   | En la bitácora hay fotos de los procedimientos y algunos textos breves indicando si algo no se podía leer en una opción u otra.  |
 | 4. Apropiación y Articulación de Conceptos |  4.5  | La bitácora muestra comprensión de los temas, pero siento que aún me falta mejorar un poco.    |
 | TOTAL| 4.78 |    |   
+
 
 
 
