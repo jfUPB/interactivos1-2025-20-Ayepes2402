@@ -35,6 +35,8 @@ Porque muestra el estado del newAState y va cambiando el resultado de la pantall
 **Ahora cambia la opción de Mostrar datos como a Todo en Hex y vuelve a capturar el resultado.** 
 
 <a name="im1"></a>
+Captura 1:
+
 <img width="776" height="197" alt="image" src="https://github.com/user-attachments/assets/494ed8a1-29f5-45b4-b902-75f76975aeb7" />  
 
 **¿Cómo está relacionado con esta línea de código?**  
@@ -310,6 +312,7 @@ Para quitar los decimales lo que hice fue usar int() en las coordenadas. Primero
 | 3. Análisis y Reflexión |  4.6   | En la bitácora hay fotos de los procedimientos y algunos textos breves indicando si algo no se podía leer en una opción u otra.  |
 | 4. Apropiación y Articulación de Conceptos |  4.5  | La bitácora muestra comprensión de los temas, pero siento que aún me falta mejorar un poco.    |
 | TOTAL| 4.78 |    |   
+
 
 
 
