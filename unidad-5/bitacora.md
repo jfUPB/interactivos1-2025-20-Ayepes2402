@@ -32,8 +32,11 @@ Ese fragmento lee la línea de texto que envía el micro:bit, la separa por coma
 **Captura el resultado del experimento anterior. ¿Por qué se ve este resultado?**  
 Porque muestra el estado del newAState y va cambiando el resultado de la pantalla si se unde el boton A o B  
 
-**Ahora cambia la opción de Mostrar datos como a Todo en Hex y vuelve a capturar el resultado.**  
+**Ahora cambia la opción de Mostrar datos como a Todo en Hex y vuelve a capturar el resultado.** 
+
+<a name="im1"></a>
 <img width="776" height="197" alt="image" src="https://github.com/user-attachments/assets/494ed8a1-29f5-45b4-b902-75f76975aeb7" />  
+
 **¿Cómo está relacionado con esta línea de código?**  
 Debido a que de esta manera se pueden ver los 8 bites que se están usando. 
 
@@ -298,6 +301,15 @@ Para quitar los decimales lo que hice fue usar int() en las coordenadas. Primero
 
 
 
+## Autoevaluacion    
+**CRITERIOS	NOTA	JUSTIFICACIÓN**   
+| CRITERIOS | NOTA | JUSTIFICACIÓN|
+|----------|----------|----------|
+| 1. Profundidad de la Indagación  |  5   | Mientras hacía el trabajo, iba preguntando a mi compañero o investigaba por mi propia cuenta para así comprender mejor los temas. Ejemplo de ancla [aquí](#im1) |
+| 2. Calidad de la Experimentación |  5   | Mientras realizaba las actividades, siempre las ponía a prueba con el micro:bit y dejaba evidencia en la bitácora con fotos. |
+| 3. Análisis y Reflexión |  4.6   | En la bitácora hay fotos de los procedimientos y algunos textos breves indicando si algo no se podía leer en una opción u otra.  |
+| 4. Apropiación y Articulación de Conceptos |  4.5  | La bitácora muestra comprensión de los temas, pero siento que aún me falta mejorar un poco.    |
+| TOTAL| 4.78 |    |   
 
 
 
