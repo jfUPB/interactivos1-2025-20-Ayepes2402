@@ -35,3 +35,14 @@ Compara HTTP con los protocolos seriales que usaste.
 
 
 
+
+
+
+
+
+````
+A user connected - ID: lQehQqdq6j0AQkx3AAAB
+````
+
+
+
