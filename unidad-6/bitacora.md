@@ -204,6 +204,490 @@ function drawCircle(x, y, size = 150) {
 
 **Explica tu idea y realiza algunos bocetos.**   
 
+- Me gustaria hacer unas ondas que entre más cerca esten mas alteradas esten y entre mas alejadas sean mas calmadas ademas de que cambien de color dependiendo de su aceleración.
+
+**Bocetos**  
+
+<img width="660" height="660" alt="image" src="https://github.com/user-attachments/assets/ae7eb6ff-ffa5-4511-9339-28ffc80d7799" />
+
+<img width="660" height="660" alt="image" src="https://github.com/user-attachments/assets/e74240c9-a7f8-478d-9b46-29c3ceaf214c" />
+
+**Implementa tu idea.**    
+
+**server.js**
+````cpp
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
+const path = require('path');
+const app = express();
+const server = http.createServer(app); 
+const io = socketIO(server); 
+const port = 3000;
+
+let page1 = { x: 0, y: 0, width: 100, height: 100 };
+let page2 = { x: 0, y: 0, width: 100, height: 100 };
+let connectedClients = new Map();
+let syncedClients = new Set();
+
+app.use(express.static(path.join(__dirname, 'views')));
+
+app.get('/page1', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'page1.html'));
+});
+
+app.get('/page2', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'page2.html'));
+});
+
+io.on('connection', (socket) => {
+    console.log('A user connected - ID:', socket.id);
+    connectedClients.set(socket.id, { page: null, synced: false });
+    
+    socket.on('disconnect', () => {
+        console.log('User disconnected - ID:', socket.id);
+        connectedClients.delete(socket.id);
+        syncedClients.delete(socket.id);
+        socket.broadcast.emit('peerDisconnected');
+        checkAndNotifySyncStatus();
+    });
+
+    socket.on('win1update', (window1) => { 
+        if (isValidWindowData(window1)) {
+            page1 = window1;
+            connectedClients.set(socket.id, { page: 'page1', synced: false });
+            socket.broadcast.emit('getdata', { data: page1, from: 'page1' });
+            syncedClients.delete(socket.id);
+            checkAndNotifySyncStatus();
+        }
+    });
+
+    socket.on('win2update', (window2) => {
+        if (isValidWindowData(window2)) {
+            page2 = window2;
+            connectedClients.set(socket.id, { page: 'page2', synced: false });
+            socket.broadcast.emit('getdata', { data: page2, from: 'page2' });
+            syncedClients.delete(socket.id);
+            checkAndNotifySyncStatus();
+        }
+    });
+
+    socket.on('requestSync', () => {
+        const clientInfo = connectedClients.get(socket.id);
+        if (clientInfo?.page === 'page1' && page2.width > 100) {
+            socket.emit('getdata', { data: page2, from: 'page2' });
+        } else if (clientInfo?.page === 'page2' && page1.width > 100) {
+            socket.emit('getdata', { data: page1, from: 'page1' });
+        }
+    });
+
+    socket.on('confirmSync', () => {
+        syncedClients.add(socket.id);
+        checkAndNotifySyncStatus();
+    }); 
+});
+
+function isValidWindowData(data) {
+    return data && 
+            typeof data.x === 'number' && 
+            typeof data.y === 'number' && 
+            typeof data.width === 'number' && data.width > 0 &&
+            typeof data.height === 'number' && data.height > 0;
+}
+
+function checkAndNotifySyncStatus() {
+    const page1Clients = Array.from(connectedClients.values()).filter(info => info.page === 'page1');
+    const page2Clients = Array.from(connectedClients.values()).filter(info => info.page === 'page2');
+    
+    const bothPagesConnected = page1Clients.length > 0 && page2Clients.length > 0;
+    
+    if (bothPagesConnected && syncedClients.size >= 2) {
+        io.emit('fullySynced', true);
+    } else {
+        io.emit('fullySynced', false);
+    }
+}
+
+server.listen(port, () => {
+    console.log(`Server is listening on http://localhost:${port}`);
+    console.log(`Open two windows:`);
+    console.log(`- http://localhost:${port}/page1`);
+    console.log(`- http://localhost:${port}/page2`);
+});
+````
+**page1.html**  
+````cpp
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estanque Interactivo - Página 1</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.0/lib/p5.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1a1a40;
+        }
+    </style>
+</head>
+<body>
+    <script defer src="page1.js"></script>
+</body>
+</html>
+````
+**page1.js**
+````cpp
+let currentPageData = {
+    x: window.screenX,
+    y: window.screenY,
+    width: window.innerWidth,
+    height: window.innerHeight
+}
+
+let previousPageData = { ...currentPageData }; 
+let remotePageData = { x: 0, y: 0, width: 100, height: 100 };
+let socket;
+let isConnected = false;
+let hasRemoteData = false;
+let isFullySynced = false;
+let maxDistance = 1500; 
+let waveFactor = 0; 
+
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+    frameRate(60);
+    socket = io();
+
+    socket.on('connect', () => {
+        isConnected = true;
+        socket.emit('win1update', currentPageData);
+        setTimeout(() => { socket.emit('requestSync'); }, 500);
+    });
+
+    socket.on('getdata', (response) => {
+        if (response && response.data && isValidRemoteData(response.data)) {
+            remotePageData = response.data;
+            hasRemoteData = true;
+            socket.emit('confirmSync'); 
+        }
+    });
+
+    socket.on('fullySynced', (synced) => {
+        isFullySynced = synced;
+    });
+
+    socket.on('peerDisconnected', () => {
+        hasRemoteData = false;
+        isFullySynced = false;
+    });
+
+    socket.on('disconnect', () => {
+        isConnected = false;
+        hasRemoteData = false;
+        isFullySynced = false;
+    });
+}
+
+function isValidRemoteData(data) {
+    return data && 
+            typeof data.x === 'number' && 
+            typeof data.y === 'number' && 
+            typeof data.width === 'number' && data.width > 0 &&
+            typeof data.height === 'number' && data.height > 0;
+}
+
+function checkWindowPosition() {
+    const newPageData = {
+        x: window.screenX,
+        y: window.screenY,
+        width: window.innerWidth,
+        height: window.innerHeight
+    };
+
+    if (newPageData.x !== previousPageData.x || newPageData.y !== previousPageData.y || 
+        newPageData.width !== previousPageData.width || newPageData.height !== previousPageData.height) {
+
+        currentPageData = newPageData;
+        socket.emit('win1update', currentPageData);
+        previousPageData = { ...currentPageData }; 
+    }
+}
+
+function calculateWaveFactor() {
+    let center1X = currentPageData.x + currentPageData.width / 2;
+    let center1Y = currentPageData.y + currentPageData.height / 2;
+    let center2X = remotePageData.x + remotePageData.width / 2;
+    let center2Y = remotePageData.y + remotePageData.height / 2;
+    
+    let distValue = dist(center1X, center1Y, center2X, center2Y);
+    let normalizedDist = constrain(distValue, 0, maxDistance);
+    
+    waveFactor = map(normalizedDist, 0, maxDistance, 1.0, 0.0);
+    waveFactor = easeOutQuad(waveFactor); 
+}
+
+function easeOutQuad(t) {
+    return t * t;
+}
+
+function drawWaves(factor) {
+    let centerX = width / 2;
+    let centerY = height / 2;
+    
+    noFill();
+    strokeWeight(1 + factor * 5); 
+    
+    let hue = map(factor, 0, 1, 240, 360);
+    let brightness = map(factor, 0, 1, 40, 100); 
+    colorMode(HSB, 360, 100, 100);
+    stroke(hue, 80, brightness, 0.9);
+
+    let waveSpeed = map(factor, 0, 1, 0.5, 3.0); 
+    let numRings = 10 + factor * 20; 
+    let ringSpacing = map(factor, 0, 1, 100, 40);
+    let amplitude = map(factor, 0, 1, 2, 40); 
+
+    for (let i = 0; i < numRings; i++) {
+        let radius = i * ringSpacing;
+        let angleOffset = frameCount * 0.02 * waveSpeed + i * 0.5;
+        
+        let distRadius = radius + sin(angleOffset) * amplitude * map(i, 0, numRings, 1, 0.5);
+        
+        ellipse(centerX, centerY, distRadius * 2, distRadius * 2);
+    }
+    
+    colorMode(RGB, 255);
+    fill(255, 255, 255, 150 + factor * 105); 
+    noStroke();
+    ellipse(centerX, centerY, 50, 50);
+}
+
+function draw() {
+    background(26, 26, 64);
+    checkWindowPosition();
+    
+    if (!isConnected || !hasRemoteData || !isFullySynced) {
+        showStatus('Esperando Conexión/Sincronización...');
+        return;
+    }
+
+    calculateWaveFactor();
+    
+    drawWaves(waveFactor);
+}
+
+function showStatus(message, statusColor = null) {
+    textSize(18);
+    textAlign(CENTER, CENTER);
+    noStroke();
+    fill(0, 0, 0, 180);
+    rectMode(CENTER);
+    let textW = textWidth(message) + 40;
+    let textH = 30;
+    rect(width / 2, 30, textW, textH, 10);
+    fill(statusColor || color(255, 180, 0));
+    text(message, width / 2, 30);
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+}
+````
+**page2.html**
+````cpp
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estanque Interactivo - Página 2</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.0/lib/p5.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1a1a40;
+        }
+    </style>
+</head>
+
+<body>
+    <script defer src="page2.js"></script>
+</body>
+</html>
+````
+**page2.js
+````cpp
+let currentPageData = {
+    x: window.screenX,
+    y: window.screenY,
+    width: window.innerWidth,
+    height: window.innerHeight
+}
+
+let previousPageData = { ...currentPageData }; 
+let remotePageData = { x: 0, y: 0, width: 100, height: 100 };
+let socket;
+let isConnected = false;
+let hasRemoteData = false;
+let isFullySynced = false;
+let maxDistance = 1500; 
+let waveFactor = 0; 
+
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+    frameRate(60);
+    socket = io();
+
+    socket.on('connect', () => {
+        isConnected = true;
+        socket.emit('win2update', currentPageData);
+        setTimeout(() => { socket.emit('requestSync'); }, 500); 
+    });
+
+    socket.on('getdata', (response) => {
+        if (response && response.data && isValidRemoteData(response.data)) {
+            remotePageData = response.data;
+            hasRemoteData = true;
+            socket.emit('confirmSync'); 
+        }
+    });
+
+    socket.on('fullySynced', (synced) => {
+        isFullySynced = synced;
+    });
+
+    socket.on('peerDisconnected', () => {
+        hasRemoteData = false;
+        isFullySynced = false;
+    });
+
+    socket.on('disconnect', () => {
+        isConnected = false;
+        hasRemoteData = false;
+        isFullySynced = false;
+    });
+}
+
+function isValidRemoteData(data) {
+    return data && 
+            typeof data.x === 'number' && 
+            typeof data.y === 'number' && 
+            typeof data.width === 'number' && data.width > 0 &&
+            typeof data.height === 'number' && data.height > 0;
+}
+
+function checkWindowPosition() {
+    const newPageData = {
+        x: window.screenX,
+        y: window.screenY,
+        width: window.innerWidth,
+        height: window.innerHeight
+    };
+
+    if (newPageData.x !== previousPageData.x || newPageData.y !== previousPageData.y || 
+        newPageData.width !== previousPageData.width || newPageData.height !== previousPageData.height) {
+
+        currentPageData = newPageData;
+        socket.emit('win2update', currentPageData);
+        previousPageData = { ...currentPageData }; 
+    }
+}
+
+
+function calculateWaveFactor() {
+    let center1X = currentPageData.x + currentPageData.width / 2;
+    let center1Y = currentPageData.y + currentPageData.height / 2;
+    let center2X = remotePageData.x + remotePageData.width / 2;
+    let center2Y = remotePageData.y + remotePageData.height / 2;
+    
+    let distValue = dist(center1X, center1Y, center2X, center2Y);
+    let normalizedDist = constrain(distValue, 0, maxDistance);
+    
+    waveFactor = map(normalizedDist, 0, maxDistance, 1.0, 0.0);
+    waveFactor = easeOutQuad(waveFactor); 
+}
+
+function easeOutQuad(t) {
+    return t * t;
+}
+
+function drawWaves(factor) {
+    let centerX = width / 2;
+    let centerY = height / 2;
+    
+    noFill();
+    strokeWeight(1 + factor * 5); 
+    
+    let hue = map(factor, 0, 1, 240, 360); 
+    let brightness = map(factor, 0, 1, 40, 100);
+    colorMode(HSB, 360, 100, 100);
+    stroke(hue, 80, brightness, 0.9);
+
+    let waveSpeed = map(factor, 0, 1, 0.5, 3.0); 
+    let numRings = 10 + factor * 20; 
+    let ringSpacing = map(factor, 0, 1, 100, 40); 
+    let amplitude = map(factor, 0, 1, 2, 40); 
+
+    for (let i = 0; i < numRings; i++) {
+        let radius = i * ringSpacing;
+        let angleOffset = frameCount * 0.02 * waveSpeed + i * 0.5;
+        
+        let distRadius = radius + sin(angleOffset) * amplitude * map(i, 0, numRings, 1, 0.5);
+        
+        ellipse(centerX, centerY, distRadius * 2, distRadius * 2);
+    }
+    
+    colorMode(RGB, 255);
+    fill(255, 255, 255, 150 + factor * 105); 
+    noStroke();
+    ellipse(centerX, centerY, 50, 50);
+}
+
+function draw() {
+    background(26, 26, 64); 
+    checkWindowPosition();
+    
+    if (!isConnected || !hasRemoteData || !isFullySynced) {
+        showStatus('Esperando Conexión/Sincronización...');
+        return;
+    }
+
+    calculateWaveFactor();
+    
+    drawWaves(waveFactor);
+}
+
+function showStatus(message, statusColor = null) {
+    textSize(18);
+    textAlign(CENTER, CENTER);
+    noStroke();
+    fill(0, 0, 0, 180);
+    rectMode(CENTER);
+    let textW = textWidth(message) + 40;
+    let textH = 30;
+    rect(width / 2, 30, textW, textH, 10);
+    fill(statusColor || color(255, 180, 0));
+    text(message, width / 2, 30);
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+}
+````
+**Fotos**  
+<img width="660" height="660" alt="image" src="https://github.com/user-attachments/assets/24a6928e-2ef6-486b-b38a-22aad79dab20" />  
+
+<img width="660" height="669" alt="image" src="https://github.com/user-attachments/assets/8b82f432-0aad-40d9-8607-221dd87734f1" />
+
+
+
 
 
 
