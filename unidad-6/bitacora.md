@@ -140,54 +140,42 @@ Mover Page2: Received win2update from ID: zHdk-5FsKF6bfvFnAAAF Data: { x: 937, y
 **¿Qué aprendiste sobre la variable port y la función listen? Restaura el puerto a 3000.**  
 La variable port señala en qué puerto estará el servidor, y la función listen lo arranca en ese puerto en particular.  
 
-## Actividad 04  
-🧐🧪✍️
-Experimenta
+## Actividad 04    
 
-Abre page2.html en tu navegador (con el servidor corriendo).
+**Abre page2.html en tu navegador (con el servidor corriendo). Abre la consola de desarrollador (F12). Detén el servidor Node.js (Ctrl+C). Refresca la página page2.html. Observa la consola del navegador. ¿Ves algún error relacionado con la conexión? ¿Qué indica?**   
 
-Abre la consola de desarrollador (F12).
+<img width="404" height="102" alt="image" src="https://github.com/user-attachments/assets/db01af8b-c706-41e9-8b03-30810babff7b" />   
 
-Detén el servidor Node.js (Ctrl+C).
+- Hay un error en el GET de manager.js. Al reiniciar el servidor y refrescar, desaparece, mostrando que el cliente solo se comunica si el servidor está activo.
 
-Refresca la página page2.html. Observa la consola del navegador. ¿Ves algún error relacionado con la conexión? ¿Qué indica?
+**Vuelve a iniciar el servidor y refresca la página. ¿Desaparecen los errores?**  
+- Si
 
-Vuelve a iniciar el servidor y refresca la página. ¿Desaparecen los errores?
+**Comenta la línea socket.emit(‘win2update’, currentPageData, socket.id); dentro del listener connect. Reinicia el servidor y refresca page1.html y page2.html. Mueve la ventana de page2 un poco para que envíe una actualización. ¿Qué pasó? ¿Por qué?**   
 
-🧐🧪✍️
-Experimenta
+<img width="646" height="93" alt="image" src="https://github.com/user-attachments/assets/87e1e285-3216-4c19-9105-22fbfc640cb7" />
 
-Comenta la línea socket.emit(‘win2update’, currentPageData, socket.id); dentro del listener connect.
+- Se perdió la comunicación  entre aambas páginas.
 
-Reinicia el servidor y refresca page1.html y page2.html.
+**Asegúrate de tener este console.log en page2.js. Abre ambas páginas. Mueve la ventana de page1. Observa la consola del navegador de page2. ¿Qué datos muestra?**   
 
-Mueve la ventana de page2 un poco para que envíe una actualización.
+<img width="289" height="223" alt="image" src="https://github.com/user-attachments/assets/540f7638-2f43-4a6b-931a-5b57a2a4c9c1" />   
 
-¿Qué pasó? ¿Por qué?
+**Mueve la ventana de page2. Observa la consola de page1. ¿Qué pasa? ¿Por qué?**   
 
-🧐🧪✍️
-Experimenta
+<img width="311" height="145" alt="image" src="https://github.com/user-attachments/assets/39e103b8-5dfc-46a5-a78e-0b3f562b433e" />    
 
-Asegúrate de tener este console.log en page2.js.
+- Quiere decir que la app pasa los datos de una pestaña a la otra. Cuando mueves algo en una pestaña, se manda por socket.io y en la consola sale Received valid remote data.
 
-Abre ambas páginas.
+**Observa checkWindowPosition() en page2.js y modifica el código del if para comprobar si el código dentreo de este se ejecuta. Mueve cada ventana y observa las consolas. ¿Qué puedes concluir y por qué?**
 
-Mueve la ventana de page1. Observa la consola del navegador de page2. ¿Qué datos muestra?
+- El sistema solo manda información cuando hay un cambio de verdad, así no se envían datos de más.
 
-Mueve la ventana de page2. Observa la consola de page1. ¿Qué pasa? ¿Por qué?
+**(¡Sé creativo!) Cambia el background(220) para que dependa de la distancia entre las ventanas. Puedes calcular la magnitud del resultingVector usando let distancia = resultingVector.mag(); y luego usa map() para convertir esa distancia a un valor de gris o color. background(map(distancia, 0, 1000, 255, 0)); (ajusta el rango 0-1000 según sea necesario). Inventa otra modificación creativa.**  
 
-🧐🧪✍️
-Experimenta
 
-Observa checkWindowPosition() en page2.js y modifica el código del if para comprobar si el código dentreo de este se ejecuta.
-Mueve cada ventana y observa las consolas.
-¿Qué puedes concluir y por qué?
-🧐🧪✍️
-Experimenta
-(¡Sé creativo!)
+## Apply  
 
-Cambia el background(220) para que dependa de la distancia entre las ventanas. Puedes calcular la magnitud del resultingVector usando let distancia = resultingVector.mag(); y luego usa map() para convertir esa distancia a un valor de gris o color. background(map(distancia, 0, 1000, 255, 0)); (ajusta el rango 0-1000 según sea necesario).
 
-Inventa otra modificación creativa.
 
 
