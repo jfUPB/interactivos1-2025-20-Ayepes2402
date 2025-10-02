@@ -103,7 +103,7 @@ A user connected - ID: lQehQqdq6j0AQkx3AAAB
 ````
 **Abre http://localhost:3000/page2 en OTRA pestaña. Observa la terminal. ¿Qué mensaje ves? ¿El ID es diferente?**   
 ````
-User disconnected - ID: QH6C85lZmpgZ8D6kAAAD
+User disconnected - ID: jq9DJIanHZJIkP9FAAAB
 ````
 - Si, el ID es diferente
 
@@ -115,7 +115,7 @@ A user connected - ID: lQehQqdq6j0AQkx3AAAB
 
 **Cierra la pestaña de page2. Observa la terminal.**  
 ````
-User disconnected - ID: QH6C85lZmpgZ8D6kAAAD
+User disconnected - ID: jq9DJIanHZJIkP9FAAAB
 ````
 - Si, coincide
 
@@ -172,9 +172,39 @@ La variable port señala en qué puerto estará el servidor, y la función liste
 - El sistema solo manda información cuando hay un cambio de verdad, así no se envían datos de más.
 
 **(¡Sé creativo!) Cambia el background(220) para que dependa de la distancia entre las ventanas. Puedes calcular la magnitud del resultingVector usando let distancia = resultingVector.mag(); y luego usa map() para convertir esa distancia a un valor de gris o color. background(map(distancia, 0, 1000, 255, 0)); (ajusta el rango 0-1000 según sea necesario). Inventa otra modificación creativa.**  
+````cpp
+let vector1 = createVector(currentPageData.x, currentPageData.y);
+let vector2 = createVector(remotePageData.x, remotePageData.y);
+let resultingVector = createVector(vector2.x - vector1.x, vector2.y - vector1.y);
 
 
-## Apply  
+let distancia = resultingVector.mag();
+
+let bgColor = map(distancia, 0, 1000, 255, 0); 
+background(bgColor);
+````
+````cpp
+let circleSize = map(distancia, 0, 1000, 50, 300);
+drawCircle(point1[0], point1[1], circleSize);
+````
+````cpp
+function drawCircle(x, y, size = 150) {
+    fill(255, 0, 0);
+    ellipse(x, y, size, size);
+}
+````
+
+<img width="660" height="660" alt="image" src="https://github.com/user-attachments/assets/438b0361-4d82-472c-bfc5-67023ec40d40" />    
+
+<img width="660" height="660" alt="image" src="https://github.com/user-attachments/assets/cb2fd2c4-cf44-415f-9672-65a8481721a8" />   
+
+- Entre más cerca esté uno de otro mas claro es el fondo y el radio del circulo depende de la distancia.
+
+## Apply    
+
+**Explica tu idea y realiza algunos bocetos.**   
+
+
 
 
 
