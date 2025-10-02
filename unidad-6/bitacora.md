@@ -4,7 +4,7 @@
 
 **¿Qué ocurrió en la terminal cuando ejecutaste npm install? ¿Cuál crees que es su propósito?**      
 - Creo que descargó cosas para iniciar el archivo    
-
+<a name="ejemplo"></a>
 <img width="660" height="660" alt="image" src="https://github.com/user-attachments/assets/86ef234b-8942-4cca-8378-d130ad4c8833" />      
 
 **¿Qué mensaje específico apareció en la terminal después de ejecutar npm start? ¿Qué indica este mensaje?**     
@@ -34,6 +34,7 @@
 **Piensa en cómo te conectas a Internet en casa o en la Universidad. ¿Usas Wi-Fi? ¿Un cable de red? Eso es simplemente tu “rampa de acceso” a la gran red de carreteras. ¿Qué pasaría si esa rampa se corta? Anota tus ideas.**  
 - Si se corta esa rampa de acceso, me quedo sin Internet, entonces no podría chatear, buscar información ni entrar a clases virtuales. Sería como quedar desconectado del mundo hasta que vuelva la señal o use otra forma de conectarme.   
 
+<a name="investigacion"></a>
 >**Indagación:**
 >
 >Una "rampa de acceso a internet" generalmente se refiere a una conexión directa y segura a servicios en la nube (cloud on-ramp), que bypassa el internet público para empresas, ofreciendo >mayor rendimiento y seguridad, o a la accesibilidad digital, que son las tecnologías y diseños (como las rampas para sillas de ruedas o el texto alternativo en imágenes) que permiten a >todas las personas con o sin discapacidad acceder y utilizar los servicios de internet.
@@ -84,7 +85,7 @@
 
 ## Actividad 03  
 **Detén el servidor si está corriendo. Cambia la primera ruta de /page1 a /pagina_uno. Inicia el servidor. Intenta acceder a http://localhost:3000/page1. ¿Funciona?**  
-
+<a name="pruebas"></a>
 <img width="220" height="220" alt="image" src="https://github.com/user-attachments/assets/f49fbfd1-f391-46ee-97ff-c44a0230a67b" />  
 
 - No
@@ -193,7 +194,7 @@ function drawCircle(x, y, size = 150) {
     ellipse(x, y, size, size);
 }
 ````
-
+<a name="cambio"></a>
 <img width="660" height="660" alt="image" src="https://github.com/user-attachments/assets/438b0361-4d82-472c-bfc5-67023ec40d40" />    
 
 <img width="660" height="660" alt="image" src="https://github.com/user-attachments/assets/cb2fd2c4-cf44-415f-9672-65a8481721a8" />   
@@ -685,6 +686,20 @@ function windowResized() {
 <img width="660" height="660" alt="image" src="https://github.com/user-attachments/assets/24a6928e-2ef6-486b-b38a-22aad79dab20" />  
 
 <img width="660" height="669" alt="image" src="https://github.com/user-attachments/assets/8b82f432-0aad-40d9-8607-221dd87734f1" />
+
+## Autoevaluación  
+
+| **Actividad** | **Evaluación** | **Justificación / Evidencias**                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  **01**      | Excelente      | Seguí paso a paso las instrucciones iniciales: copié el repositorio con GitBash, usé los comandos `npm install` y `npm start` para correr el servidor y comprobé que las páginas funcionaran. En mi bitácora describí claramente los mensajes que salieron en la terminal y cómo se sincronizaban cliente y servidor al iniciar. También añadí [capturas de pantalla](#ejemplo) como evidencia de la comunicación en tiempo real. Esto demuestra que entendí bien el proceso de arranque del sistema.       |
+|  **02**      | Excelente      | Hice un análisis de los procesos vistos en clase. Expliqué con mis palabras la relación cliente-servidor y comparé HTTP con protocolos antiguos. También diferencié entre HTML, CSS y JavaScript, mostrando cómo cada uno cumple un papel distinto. En la bitácora expliqué qué ventajas tiene WebSocket frente a HTTP tradicional y por qué Node.js es útil en este tipo de proyectos. Mis respuestas muestran que comprendí los conceptos y que puedo relacionarlos con ejemplos prácticos. Por otro lado también hice una pequeña [investigaacion](#investigacion)  |
+|  **03**      | Excelente      | Realicé todos los experimentos del código del servidor. Analicé cómo funcionan las conexiones, revisé los IDs de los sockets y probé la diferencia entre `socket.emit` y `socket.broadcast.emit`. [Documenté mis pruebas](#pruebas) en la bitácora, mostrando que entendí bien el flujo de datos y cómo se comparten entre los clientes. Mis explicaciones y las capturas de evidencias reflejan que no solo ejecuté el código, sino que también comprendí su lógica interna.                               |
+|  **04**      | Excelente      | Experimenté con el lado del cliente y probé varias modificaciones al código. Documenté los errores de conexión y expliqué cómo los resolví. También hice un [cambio creativo en el comportamiento visual](#cambio), modificando el background y añadiendo un efecto dinámico que demuestra la comunicación en tiempo real. Aunque el efecto no se ve en una captura, expliqué claramente cómo funciona para que quede como evidencia. Esto refleja que apliqué los conceptos de forma práctica y creativa. |
+|  **05**      | Excelente      | Desarrollé una aplicación original como lo pedía la actividad Apply. Usé la misma infraestructura de comunicación pero inventé algo nuevo y creativo, no solo un cambio de diseño. En la bitácora presenté el código completo.                                                                              |  
+
+En resumen, hice todas las actividades completas y en cada una mostré evidencias claras, explicaciones con mis palabras y hasta una propuesta creativa en la última parte. No dejé nada sin hacer y la tabla refleja que entendí y apliqué lo aprendido, por eso considero que mi nota final debe ser 5.0.
+
+
 
 
 
