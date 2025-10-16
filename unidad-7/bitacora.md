@@ -55,6 +55,10 @@ Si tengo dos computadores con el programa de escritorio y un celular, cuando mue
 **¿Qué información útil te proporcionan los mensajes console.log en el servidor durante la ejecución?**    
 Muestra cuándo un cliente se conecta, la posición del toque que detecta y también si alguien se desconecta. Todo eso ayuda a saber en qué parte puede estar fallando el código.
 
+## Actividad 4  
+
+
+
 
 
 
