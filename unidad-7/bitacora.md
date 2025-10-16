@@ -56,6 +56,7 @@ Si tengo dos computadores con el programa de escritorio y un celular, cuando mue
 Muestra cuándo un cliente se conecta, la posición del toque que detecta y también si alguien se desconecta. Todo eso ayuda a saber en qué parte puede estar fallando el código.
 
 ## Actividad 4  
+**Realiza un diagrama donde muestres el flujo completo de datos y eventos entre los tres componentes: móvil, servidor y escritorio. Puedes ilustrar con un ejemplo de coordenadas táctiles (x, y) y cómo viajan a través del sistema.**
 
 
 
