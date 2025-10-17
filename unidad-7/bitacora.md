@@ -280,6 +280,9 @@ function touchEnded() {
   return false;
 }
 ````
+<img width="1139" height="508" alt="image" src="https://github.com/user-attachments/assets/b65052e7-52c3-4678-9244-f468faf199d8" />
+<img width="317" height="680" alt="image" src="https://github.com/user-attachments/assets/94d64e86-810a-4ac1-b83b-d19d8bc3d2b3" />
+
 
 ## Autoevaluación
 
@@ -291,6 +294,7 @@ function touchEnded() {
 | **4. Apropiación y articulación de conceptos** | Puedo explicar con claridad qué hace cada parte del código (socket, touchMoved, express.static). Entendí cómo todo se conecta entre móvil, servidor y escritorio.        | ⭐ **5.0 (Excelente)** |
 
 Nota final: 5 ya que hice todas las actividades.
+
 
 
 
