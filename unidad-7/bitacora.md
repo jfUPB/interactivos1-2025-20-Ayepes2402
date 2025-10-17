@@ -58,6 +58,12 @@ Muestra cuándo un cliente se conecta, la posición del toque que detecta y tamb
 ## Actividad 4  
 **Realiza un diagrama donde muestres el flujo completo de datos y eventos entre los tres componentes: móvil, servidor y escritorio. Puedes ilustrar con un ejemplo de coordenadas táctiles (x, y) y cómo viajan a través del sistema.**
 
+<img width="378" height="665" alt="image" src="https://github.com/user-attachments/assets/2405a42c-62c3-4362-a4bf-6fbbbce768a2" />
+
+## Apply 
+**Has analizado cómo el móvil puede controlar el escritorio a través de un servidor y Dev Tunnels. Ahora es tu turno de ser creativo. Tomarás la base tecnológica y crearás una aplicación interactiva diferente, manteniendo la esencia: el touch del móvil como input principal. Diseña una aplicación interactiva que use el touch del móvil para controlar una visuales de tema musical de tu elección. Las visuales correrán en una aplicación de escritorio (desktop). Recuerda que ambas aplicaciones las construirás usando p5.js y utilizando el servidor Node.js como puente. Implementa tu diseño. Puedes usar IA generativa para ayudarte a escribir el código, pero primero debes hacer el diseño de lo que quieres. Incluye todos los códigos (servidor y clientes) en tu bitácora.**
+
+
 
 
 
