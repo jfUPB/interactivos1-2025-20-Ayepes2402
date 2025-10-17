@@ -63,6 +63,256 @@ Muestra cuándo un cliente se conecta, la posición del toque que detecta y tamb
 ## Apply 
 **Has analizado cómo el móvil puede controlar el escritorio a través de un servidor y Dev Tunnels. Ahora es tu turno de ser creativo. Tomarás la base tecnológica y crearás una aplicación interactiva diferente, manteniendo la esencia: el touch del móvil como input principal. Diseña una aplicación interactiva que use el touch del móvil para controlar una visuales de tema musical de tu elección. Las visuales correrán en una aplicación de escritorio (desktop). Recuerda que ambas aplicaciones las construirás usando p5.js y utilizando el servidor Node.js como puente. Implementa tu diseño. Puedes usar IA generativa para ayudarte a escribir el código, pero primero debes hacer el diseño de lo que quieres. Incluye todos los códigos (servidor y clientes) en tu bitácora.**
 
+**desktop html**
+````html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🎵 Guitarra Interactiva - Pantalla</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.0/lib/p5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.0/lib/addons/p5.sound.min.js"></script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="sketch.js"></script>
+<style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #000;
+        font-family: "Segoe UI", sans-serif;
+      }
+ 
+      button {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: #1db954;
+        color: white;
+        border: none;
+        padding: 15px 25px;
+        font-size: 20px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+ 
+      button:hover {
+        background: #17a74a;
+      }
+</style>
+</head>
+<body></body>
+</html>
+````
+**mobile html**
+````html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🎸 Guitarra Interactiva - Móvil</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.11.0/lib/p5.min.js"></script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="sketch.js"></script>
+<style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #000;
+        font-family: "Segoe UI", sans-serif;
+      }
+</style>
+</head>
+<body></body>
+</html>
+````
+**sketch desktop**
+````js
+let socket;
+let song;
+let gifLeft, gifRight;
+let isPlaying = false;
+let started = false;
+let pitchValues = [0.8, 0.9, 1, 1.1, 1.2, 1.3]; 
+ 
+function preload() {
+  song = loadSound("song.mp3");
+  gifLeft = loadImage("bailarin1.gif");
+  gifRight = loadImage("bailarin2.gif");
+}
+ 
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  socket = io();
+ 
+  
+  let startBtn = createButton("🎵 Iniciar experiencia");
+  startBtn.position(width / 2 - 100, height / 2);
+  startBtn.style("font-size", "20px");
+  startBtn.style("padding", "15px");
+  startBtn.style("border-radius", "10px");
+  startBtn.style("cursor", "pointer");
+  startBtn.mousePressed(() => {
+    started = true;
+    userStartAudio();
+    startBtn.remove();
+  });
+ 
+  socket.on("stringPlayed", (data) => {
+    if (!started) return;
+    let pitch = pitchValues[data.string] || 1;
+ 
+ 
+    if (!isPlaying) {
+      song.loop();
+      isPlaying = true;
+    }
+ 
+    
+    song.rate(pitch);
+  });
+ 
+  socket.on("pauseSong", () => {
+    if (isPlaying) {
+      song.pause();
+      isPlaying = false;
+    }
+  });
+}
+ 
+function draw() {
+  background(0);
+ 
+  if (!started) {
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(24);
+    text("Presiona para empezar 🎵", width / 2, height / 2 + 80);
+    return;
+  }
+ 
+  if (isPlaying) {
+    image(gifLeft, width * 0.1, height * 0.3, 300, 300);
+    image(gifRight, width * 0.6, height * 0.3, 300, 300);
+  } else {
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(24);
+    text("🎸 toca las cuerdas desde el celular 🎶", width / 2, height / 2);
+  }
+}
+````
+**mobile desktop**
+````js
+let socket;
+let strings = [];
+let numStrings = 6;
+let activeString = -1;
+let lastTouchTime = 0;
+let idleTime = 3000;
+let fadeAmount = 0; 
+ 
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  socket = io();
+ 
+  for (let i = 0; i < numStrings; i++) {
+    let y = map(i, 0, numStrings - 1, height * 0.2, height * 0.8);
+    strings.push({ y, waveOffset: 0 });
+  }
+}
+ 
+function draw() {
+  background(20);
+  stroke(255);
+  strokeWeight(3);
+  noFill();
+ 
+  let now = millis();
+  if (now - lastTouchTime > idleTime) {
+    socket.emit("pauseSong");
+  }
+ 
+  for (let i = 0; i < strings.length; i++) {
+    let s = strings[i];
+    beginShape();
+    for (let x = 0; x < width; x += 20) {
+      let amp = (activeString === i) ? 20 : 2;
+      let wave = sin((x + s.waveOffset) * 0.05) * amp * fadeAmount;
+      vertex(x, s.y + wave);
+    }
+    endShape();
+    s.waveOffset += 5;
+  }
+ 
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(22);
+  text("🎸 toca una cuerda 🎶", width / 2, 40);
+ 
+ 
+  if (activeString === -1 && fadeAmount > 0) {
+    fadeAmount -= 0.2;
+  }
+  fadeAmount = constrain(fadeAmount, 0, 1);
+}
+ 
+function touchStarted() {
+  lastTouchTime = millis();
+  let t = touches[0];
+  for (let i = 0; i < strings.length; i++) {
+    let s = strings[i];
+    if (abs(t.y - s.y) < 30) {
+      activeString = i;
+      fadeAmount = 1; 
+      socket.emit("stringPlayed", { string: i });
+    }
+  }
+  return false;
+}
+ 
+function touchEnded() {
+  activeString = -1;
+  socket.emit("stopString");
+  return false;
+}
+````
+**server**
+````cpp
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
+ 
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+const port = 3000;
+ 
+app.use(express.static('public'));
+ 
+io.on('connection', (socket) => {
+  console.log('Nuevo cliente conectado');
+ 
+  socket.on('stringPlayed', (data) => {
+    io.emit('stringPlayed', data);
+  });
+ 
+  socket.on('pauseSong', () => {
+    io.emit('pauseSong');
+  });
+ 
+  socket.on('disconnect', () => {
+    console.log('Cliente desconectado');
+  });
+});
+ 
+server.listen(port, () => {
+  console.log(`Servidor en http://localhost:${port}`);
+});
+````
+
 
 
 
