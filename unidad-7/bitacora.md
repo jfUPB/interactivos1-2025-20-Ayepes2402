@@ -283,6 +283,14 @@ function touchEnded() {
 
 ## Autoevaluación
 
+| **Criterio**                                   | **Autoevaluación personal**                                                                                                                                              | **Nivel**             |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------- |
+| **1. Profundidad de la indagación**            | Entendí bien por qué usamos Dev Tunnels y cómo funciona el envío de mensajes entre los clientes. No solo seguí los pasos, también quise entender el porqué de cada cosa. | ⭐ **5.0 (Excelente)** |
+| **2. Calidad de la experimentación**           | Hice varias pruebas entre el celular y el computador, revisé los mensajes del servidor y después creé mi propia app de guitarra interactiva probando diferentes ideas.   | ⭐ **5.0 (Excelente)** |
+| **3. Análisis y reflexión**                    | Expliqué con mis palabras qué pasaba en cada prueba y por qué. Analicé los resultados y comparé Dev Tunnels con la IP local para entender sus ventajas.                  | ⭐ **5.0 (Excelente)** |
+| **4. Apropiación y articulación de conceptos** | Puedo explicar con claridad qué hace cada parte del código (socket, touchMoved, express.static). Entendí cómo todo se conecta entre móvil, servidor y escritorio.        | ⭐ **5.0 (Excelente)** |
+
+Nota final: 5 ya que hice todas las actividades.
 
 
 
