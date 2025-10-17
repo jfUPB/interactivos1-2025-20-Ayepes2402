@@ -279,40 +279,6 @@ function touchEnded() {
   return false;
 }
 ````
-**server**
-````cpp
-const express = require('express');
-const http = require('http');
-const socketIO = require('socket.io');
- 
-const app = express();
-const server = http.createServer(app);
-const io = socketIO(server);
-const port = 3000;
- 
-app.use(express.static('public'));
- 
-io.on('connection', (socket) => {
-  console.log('Nuevo cliente conectado');
- 
-  socket.on('stringPlayed', (data) => {
-    io.emit('stringPlayed', data);
-  });
- 
-  socket.on('pauseSong', () => {
-    io.emit('pauseSong');
-  });
- 
-  socket.on('disconnect', () => {
-    console.log('Cliente desconectado');
-  });
-});
- 
-server.listen(port, () => {
-  console.log(`Servidor en http://localhost:${port}`);
-});
-````
-
 
 
 
