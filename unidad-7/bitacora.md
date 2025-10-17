@@ -62,6 +62,7 @@ Muestra cuándo un cliente se conecta, la posición del toque que detecta y tamb
 
 ## Apply 
 **Has analizado cómo el móvil puede controlar el escritorio a través de un servidor y Dev Tunnels. Ahora es tu turno de ser creativo. Tomarás la base tecnológica y crearás una aplicación interactiva diferente, manteniendo la esencia: el touch del móvil como input principal. Diseña una aplicación interactiva que use el touch del móvil para controlar una visuales de tema musical de tu elección. Las visuales correrán en una aplicación de escritorio (desktop). Recuerda que ambas aplicaciones las construirás usando p5.js y utilizando el servidor Node.js como puente. Implementa tu diseño. Puedes usar IA generativa para ayudarte a escribir el código, pero primero debes hacer el diseño de lo que quieres. Incluye todos los códigos (servidor y clientes) en tu bitácora.**
+La idea que yo tenía en mente era utilizar la canción rocki y jugar un poco con sus velocidades, como en la canción me gusta como suena la guitarra quise que en el telefono se tocaran las cuerdas de una y que cuando se toquen se vaya haciendo más rapida la canción ademas mientras se unde queria que aparecieran unos personajes bailando.
 
 **desktop html**
 ````html
@@ -279,6 +280,10 @@ function touchEnded() {
   return false;
 }
 ````
+
+## Autoevaluación
+
+
 
 
 
