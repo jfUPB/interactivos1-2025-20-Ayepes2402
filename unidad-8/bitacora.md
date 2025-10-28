@@ -1,23 +1,27 @@
 
 # Evidencias de la unidad 8
 
-## Actividad 1  
+## Actividad 1     
 En esta fase de la unidad vas a seleccionar un tema musical (o un concepto visual que desees explorar) que te guste y vas a definir el concepto de las visuales que quieres crear. Ten presente que estas visuales las controlarás en tiempo real desde un dispositivo móvil y el micro:bit.
 
+**Tema musical o concepto visual**     
+Voy a usar la canción [Blinding Lights](https://youtu.be/4NRXx6U8ABQ?si=RGnIdjpPAOti6s3U) de The Weeknd, porque tiene un ritmo muy marcado y me inspira a crear visuales de luces y colores que se mueven al compás.
 
-**Documenta los referentes visuales que te inspiren.**    
+**Referentes visuales**     
+Me basé en luces neón, colores brillantes y fondos oscuros, parecidos a los videoclips de música electrónica o retro. También me inspiré en visuales que muestran círculos u ondas que vibran con el sonido.
 
+**Concepto de las visuales**     
+Mi idea es crear una animación donde círculos y líneas se mueven al ritmo de la canción. Cuando el sonido tiene más fuerza, los círculos crecen o cambian de color. El fondo será oscuro con tonos morados, azules y rojos para dar ese efecto de luces nocturnas.
 
-**Define el concepto de las visuales que quieres crear.**   
-quiero hacer una galaxia en la que puedas cambiar el color de las estrellas y que sea un astronauta en ese lugar, me gustaria también que se pueda mver el astronauta de posición. 
+**Control desde el móvil y el micro:bit**     
+**Desde el celular:** tocar la pantalla cambia el color principal de las visuales.
 
-**Explica cómo el móvil y el micro:bit controlarán las visuales.**    
+**Desde el microbit:**    
+* Botón A: pausa o reproduce la canción.      
+* Botón B: cambia el tipo de visual (por ejemplo, círculos o barras).      
+* Inclinando el micro:bit se puede cambiar la velocidad de los movimientos.      
 
-
-**Haz un bocetos de todas las interfaces del sistema.**   
-
-
-**Haz un diagrama que explique cómo se comunicarán los diferentes componentes del sistema.**   
-
+## Actividad 02    
+Ahora es momento de construir tu sistema interactivo. Recuerda que puedes usar IA generativa para ayudarte a escribir el código, pero primero debes hacer el diseño de lo que quieres. NO USES IA generativa para que te haga el diseño. Y una vez tengas el código generado por IA, debes entenderlo y analizar con detenimiento el código para asegurarte de que hace exactamente lo que tú quieres.
 
 
