@@ -35,8 +35,8 @@ Ahora es momento de construir tu sistema interactivo. Recuerda que puedes usar I
 
 para hacer el codio primero le puse a gpt: podrias ayudarme a hacer el codigo para mi idea En esta fase de la unidad vas a seleccionar un tema musical (o un concepto visual que desees explorar) que te guste y vas a definir el concepto de las visuales que quieres crear. Ten presente que estas visuales las controlarás en tiempo real desde un dispositivo móvil y el micro:bit. Tema musical o concepto visual Voy a usar la canción Blinding Lights de The Weeknd, porque tiene un ritmo muy marcado y me inspira a crear visuales de luces y colores que se mueven al compás. Referentes visuales Me basé en luces neón, colores brillantes y fondos oscuros, parecidos a los videoclips de música electrónica o retro. También me inspiré en visuales que muestran círculos u ondas que vibran con el sonido. Concepto de las visuales Mi idea es crear una animación donde círculos y líneas se mueven al ritmo de la canción. Cuando el sonido tiene más fuerza, los círculos crecen o cambian de color. El fondo será oscuro con tonos morados, azules y rojos para dar ese efecto de luces nocturnas. Control desde el móvil y el micro:bit Desde el celular: tocar la pantalla cambia el color principal de las visuales. Desde el microbit: Botón A: pausa o reproduce la canción. Botón B: cambia el tipo de visual (por ejemplo, círculos o barras). Inclinando el micro:bit se puede cambiar la velocidad de los movimientos.
 
-a lo cual me respondio 
-<img width="108" height="386" alt="image" src="https://github.com/user-attachments/assets/cd77257f-6d23-482c-8af6-30ec458835c2" />
+a lo cual me respondio    
+<img width="1008" height="386" alt="image" src="https://github.com/user-attachments/assets/cd77257f-6d23-482c-8af6-30ec458835c2" />
 
 despues me puse a probar el código pero la verdad no me fue muy bien y no fui capaz de corregirlo, le pedi ayua a gpt y me decia que el código cumplia la idea pero no me ayudó mucho lo que me dijo
 <img width="1041" height="628" alt="image" src="https://github.com/user-attachments/assets/9cf3906f-285a-408f-9571-52d404156b6c" />
@@ -371,6 +371,7 @@ while True:
 ````
 **Nota**  
 Me pondría 4, porque aunque el código no funcionó completamente como esperaba, sí logré desarrollar toda la actividad 1. Seguí todos los pasos, hice las pruebas y traté de que las visuales reaccionaran al ritmo de la canción. Considero que el esfuerzo y la intención de cumplir con la idea principal se reflejan en el trabajo.
+
 
 
 
