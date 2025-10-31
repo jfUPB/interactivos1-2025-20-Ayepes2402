@@ -39,6 +39,9 @@ a lo cual me respondio
 <img width="108" height="386" alt="image" src="https://github.com/user-attachments/assets/cd77257f-6d23-482c-8af6-30ec458835c2" />
 
 despues me puse a probar el código pero la verdad no me fue muy bien y no fui capaz de corregirlo, le pedi ayua a gpt y me decia que el código cumplia la idea pero no me ayudó mucho lo que me dijo
+<img width="1041" height="628" alt="image" src="https://github.com/user-attachments/assets/9cf3906f-285a-408f-9571-52d404156b6c" />
+<img width="1118" height="797" alt="image" src="https://github.com/user-attachments/assets/cca3ffa6-37ef-409d-81be-3acd21619d11" />
+<img width="1057" height="481" alt="image" src="https://github.com/user-attachments/assets/4bf27f7a-76e2-4187-8616-d5e5af13f589" />
 
 **Desktop html**
 ````js
@@ -368,5 +371,6 @@ while True:
 ````
 **Nota**  
 Me pondría 4, porque aunque el código no funcionó completamente como esperaba, sí logré desarrollar toda la actividad 1. Seguí todos los pasos, hice las pruebas y traté de que las visuales reaccionaran al ritmo de la canción. Considero que el esfuerzo y la intención de cumplir con la idea principal se reflejan en el trabajo.
+
 
 
